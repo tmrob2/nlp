@@ -68,7 +68,7 @@ remarkably great
  context of the word monstrous takes on two different 
  meanings to the authors.
  
- ### Common Contexts
+ ###Common Contexts
  
  Find the contexts in which a list of words can appear.
  Returns a frequency distribution mapping each context to
@@ -95,11 +95,11 @@ remarkably great
  "liberty","constitution"])
  ```
  
- In this example the lexical dispersion plot demonstrates
- that the words 'citizens', 'dutes' and 'liberty' have
- been uniformly mentioned in the inaugural speech for 
- the last 220 years. Whereas words like 'democracy' 
- and 'America' have only been relatively recently 
+In this example the lexical dispersion plot demonstrates
+that the words 'citizens', 'dutes' and 'liberty' have
+been uniformly mentioned in the inaugural speech for 
+the last 220 years. Whereas words like 'democracy' 
+and 'America' have only been relatively recently 
 included. Interestingly enough, while freedom has
 always been mentioned it has become more fequent in 
 recent times.
@@ -144,35 +144,35 @@ Sense and Sensibility we obtain
  fdist_ss.plot(50, cumulative=True)
  ```
  
- The cumulative distribution gives details about the
- tokens that take up a significant portion of the text. 
- In the case of Sense and Sensibility which contains 
- a total of 141,576 words the 50 most common account for
- approximately 70,000 which is roughly 50%. With the 
- exception of Elinor and Marriane the remaining 48 words
- are plumbing. We can conclude that Elinor and Marianne are
- the protagonists in this text.
- 
- If the most frequent words do not aide the analysis of the
- text then the 'hapaxes' or words that only occur once. To
-  get an understanding of the hapaxes use the following
+The cumulative distribution gives details about the
+tokens that take up a significant portion of the text. 
+In the case of Sense and Sensibility which contains 
+a total of 141,576 words the 50 most common account for
+approximately 70,000 which is roughly 50%. With the 
+exception of Elinor and Marriane the remaining 48 words
+are plumbing. We can conclude that Elinor and Marianne are
+the protagonists in this text.
+
+If the most frequent words do not aide the analysis of the
+text then the 'hapaxes' or words that only occur once. To
+get an understanding of the hapaxes use the following
   
-  ```python
-  text.hapexes()
-  ```
+```python
+text.hapexes()
+```
+
+###Subsets of text with specific properties
+
+If the most freqent or hapexes searches do not reveal
+anything about the underlying context of the text then
+searching for text subsets with specific properties
+may help. Python provides the underlying set structure
+to search against a property with list comprehension.
+
+* [w for w in V if P(v)]
   
-  ###Subsets of text with specific properties
-  
-  If the most freqent or hapexes searches do not reveal
-  anything about the underlying context of the text then
-  searching for text subsets with specific properties
-  may help. Python provides the underlying set structure
-  to search against a property with list comprehension.
-  
-  * [w for w in V if P(v)]
-  
-  That is V is the set of vocabulary, w is a word element
-  and P(v) is a function mapping to the vocabulary. 
+That is V is the set of vocabulary, w is a word element
+and P(v) is a function mapping to the vocabulary. 
  
  
  
