@@ -173,6 +173,59 @@ to search against a property with list comprehension.
   
 That is V is the set of vocabulary, w is a word element
 and P(v) is a function mapping to the vocabulary. 
+
+For example searching for long words in a text
+
+```python
+long_words = [w for w in set(text) if len(w)>15]
+```
+
+Searches can also be conducted on multiple function inputs, 
+for example 
+
+```python
+relevant_long = [w for w in set(text) if len(w)>7 & fdist1[w]>7]
+```
+
+###Collocations and Bigrams
+
+A collacation is a sequence of words that occur frequently
+and often. 
+
+To describe the usefulness of a collocation, first a 
+description of a n-gram where n=2 is needed. This is 
+known as a bigram. A bigram is a sequence of two adjacent
+elements from a string of tokens, which are typically
+letters, syllables or words. 
+
+Bigrams help provide the conditional probability of a 
+token given the preceding token.
+
+math
+
+The probability P() of a token W_n given the preceding 
+token W_n-1 is equal to the joint probability of the 
+sequence occurring divided by the probability of the 
+preceding token occurring. 
+ 
+An example of this can be constructed using the NLTK
+method bigram()
+ 
+ ```python
+ list(nltk.bigram(['more','is','said','than','done']))
+ ```
+To get the collocations from a text 
+ 
+ ```python
+ >>>text.collocation()
+ Sperm Whale; Moby Dick; White Whale; old man; Captain Ahab; sperm
+whale; Right Whale; Captain Peleg; New Bedford; Cape Horn; cried Ahab;
+years ago; lower jaw; never mind; Father Mapple; cried Stubb; chief
+mate; white whale; ivory leg; one hand
+ ```
+Thus one can get a real sense of the prose.
+
+
  
  
  
