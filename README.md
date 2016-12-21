@@ -100,9 +100,79 @@ remarkably great
  been uniformly mentioned in the inaugural speech for 
  the last 220 years. Whereas words like 'democracy' 
  and 'America' have only been relatively recently 
-  included. Interestingly enough, while freedom has
-  always been mentioned it has become more fequent in 
-  recent times.
+included. Interestingly enough, while freedom has
+always been mentioned it has become more fequent in 
+recent times.
+
+###Vocabulary of Text
+
+The vocabulary of the text is the set of words which
+it is comprised of. This can be expressed mathematically
+as a sorted set with
+
+```python
+>>> sorted(set(text))
+```
+
+The lexical diversity of the text can be expressed as a
+percentage with the function
+ 
+```python
+def percentage_words_to_text_length(text):
+    return len(set(text))/len(text)*100
+```
+
+##Computing with Language
+
+This section covers how to bring computational resources
+to large quantities of text. Specifically around:
+
+* What makes text distinct?
+* Automatic methods to find characteristic words and 
+expressions within a text
+
+###Frequency Distribution
+
+NLTK provides a function for the frequency distribution
+with FreqDist(text) e.g. when plotting the distribution 
+of tokens across words contained in the Jane Austin's 
+Sense and Sensibility we obtain
+ 
+ ```python
+ fdist_ss = FreqDist(text2)
+ fdist_ss.most_common(50)
+ fdist_ss.plot(50, cumulative=True)
+ ```
+ 
+ The cumulative distribution gives details about the
+ tokens that take up a significant portion of the text. 
+ In the case of Sense and Sensibility which contains 
+ a total of 141,576 words the 50 most common account for
+ approximately 70,000 which is roughly 50%. With the 
+ exception of Elinor and Marriane the remaining 48 words
+ are plumbing. We can conclude that Elinor and Marianne are
+ the protagonists in this text.
+ 
+ If the most frequent words do not aide the analysis of the
+ text then the 'hapaxes' or words that only occur once. To
+  get an understanding of the hapaxes use the following
+  
+  ```python
+  text.hapexes()
+  ```
+  
+  ###Subsets of text with specific properties
+  
+  If the most freqent or hapexes searches do not reveal
+  anything about the underlying context of the text then
+  searching for text subsets with specific properties
+  may help. Python provides the underlying set structure
+  to search against a property with list comprehension.
+  
+  * [w for w in V if P(v)]
+  
+  That is V is the set of vocabulary, w is a word element
+  and P(v) is a function mapping to the vocabulary. 
  
  
  
