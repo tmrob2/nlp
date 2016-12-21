@@ -68,32 +68,32 @@ remarkably great
  context of the word monstrous takes on two different 
  meanings to the authors.
  
- ###Common Contexts
+###Common Contexts
+
+Find the contexts in which a list of words can appear.
+Returns a frequency distribution mapping each context to
+the amount of times that it was used. 
+
+```python
+text1.common_contexts(['murder', 'tell'])
+will_thee and_him to_us i_you
+```
+
+###Dispersion Plot
+
+A dispersion plot can demonstrate the occurrence of 
+particular word usage in a text. For example in the 
+artificial text example text4 which contains all 
+inaugural speeches for the last 220 years we can 
+see the distribution of certain words over the 
+'length' of the text. The lexical dispersion plot 
+works with matplotlib and numpy libraries imported.
  
- Find the contexts in which a list of words can appear.
- Returns a frequency distribution mapping each context to
- the amount of times that it was used. 
- 
- ```python
- text1.common_contexts(['murder', 'tell'])
- will_thee and_him to_us i_you
- ```
- 
- ###Dispersion Plot
- 
- A dispersion plot can demonstrate the occurrence of 
- particular word usage in a text. For example in the 
- artificial text example text4 which contains all 
- inaugural speeches for the last 220 years we can 
- see the distribution of certain words over the 
- 'length' of the text. The lexical dispersion plot 
- works with matplotlib and numpy libraries imported.
- 
- ```python
- >>>text4.dispersion_plot(["citizens", 
- "democracy", "freedom", "duties", "America",
- "liberty","constitution"])
- ```
+```python
+>>>text4.dispersion_plot(["citizens", 
+"democracy", "freedom", "duties", "America",
+"liberty","constitution"])
+```
  
 In this example the lexical dispersion plot demonstrates
 that the words 'citizens', 'dutes' and 'liberty' have
@@ -224,6 +224,8 @@ years ago; lower jaw; never mind; Father Mapple; cried Stubb; chief
 mate; white whale; ivory leg; one hand
  ```
 Thus one can get a real sense of the prose.
+
+###Conditionals
 
 
  
