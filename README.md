@@ -187,6 +187,20 @@ for example
 relevant_long = [w for w in set(text) if len(w)>7 & fdist1[w]>7]
 ```
 
+In fact the conditionals can be generalised even further with the following. Noticing that the conditional is always a function
+we can write the search itself as a function that takes an anonymous function. 
+
+```python
+def search(fn, V):
+    return [w for w in V if fn(w)]
+
+>>> search(lambda a: len(a)>15, text)
+>>> search(lambda a: len(a)>15 & fdist_ss[a]>7, text)
+```
+
+This saves a bit of code writing out the list comprehension for each of the searches and promotes a syntax that represents the
+set notation. 
+
 ###Collocations and Bigrams
 
 A collacation is a sequence of words that occur frequently
@@ -227,8 +241,84 @@ Thus one can get a real sense of the prose.
 
 ###Conditionals
 
+The typical string methods can be applied to search for specific text constructs. 
 
+| Method | Description |
+|---|:---:|
+|s.startswith(t)|string starts with t
+|s.endswith(t)|string ends with t
+|t in s| t is in the array s
+|s.islower()| all lowercase
+|s.isupper()| all upper case
+|s.isalpha()| non empty alphabetical
+|s.isalnum()| non empty alphanumeric
+|s.isdigit()| non empty digits
+|s.istitle()| initial captial letter sequence
+
+An example
+
+```python
+search(lambda a: a.endswith('ble') & a.startswith('un'), text)
+```
+
+###Text Corpora
+
+A quick interlude into text corpora is needed. Using the NLTK class is convenient and 
+practical as we are effectively inheriting a set of powerful methods built for dealing with the text interpretation problem.
+If anlaysis is being constructed quickly and a datasource is needed for testing then the NLTK package includes this via text
+corpora. There are a large amount of corpora included but in this instance a demonstration of the Brown corpus is used. The brown
+corpus includes multiple texts of varying genres and is ideal for use in anlaysis syntactic differences. More information is 
+available from http://icame.uib.no/brown/bcm-los.html
+
+```python
+from nltk.corpus import brown
+``` 
+
+To construct a corpus from a directory of text files
+
+```python
+from ntlk.corpus import PlaintextCorpusReader
+directory_address = .../files
+words = PlaintextCorpusReader(directory_address, '.*')
+words.fileids()
+```
+
+###Conditional Frequency Distributions Accessing Text Corpora Examples 
+
+In this section, the above sections will be tied together to build some computations on text examples which are slightly
+more involved.
  
+Depending on the context of the conditional search, a conditional frequency distribution may be impractical if the
+full set of words are included. Sometimes it may be more convenient and revealing to just take a subset. However, this
+presents some problems when illusting the frequency distribution with a plot. Therefore two methods can be applied 
+depending on whether a subset is being taken or the complete set. 
+
+
+An example of the complete set is:
+
+```python
+cfd = nltk.ConditionalFreqDist((g,w) for g in ['adventure', 'fiction'] for w in brown.words(categories=g))
+cfd.plot()
+```
+
+Which is messy and does not reveal a great deal about the texts. 
+
+```python
+import operator
+d = {'adventure': [x for x,_ in nltk.FreqDist(brown.words(categories='adventure')).most_common(50)], 
+     'fiction': [x for x,_ in nltk.FreqDist(brown.words(categories='fiction')).most_common(50)]}
+
+genre_words = [(g,w) for g in ['adventure', 'fiction'] for w in brown.words(categories=g) if w in d[g]]
+
+cfd = nltk.ConditionalFreqDist(genre_words)
+cdf.sort(key=operator.itemgetter(1))
+cfd.plot(cumulative=True)
+``` 
+
+For more information on NLTK plot
+```python
+cfd.plot.__doc__
+```
  
  
  
