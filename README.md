@@ -315,6 +315,49 @@ cdf.sort(key=operator.itemgetter(1))
 cfd.plot(cumulative=True)
 ``` 
 
+To conduct further anlysis and plotting that can be saved to the image processor we can send the data from the 
+conditional frequency distribution to a pandas dataframe. At this point it is useful to understand exactly what the 
+conditional frequency distribution is. With
+```python
+>>>type(cfd)
+nltk.probability.ConditionalFreqDist
+>>>nltk.probability.ConditionalFreqDist.__doc__
+    The frequency distribution for each condition is accessed using
+    the indexing operator:
+
+        >>> cfdist[3]
+        FreqDist({'the': 3, 'dog': 2, 'not': 1})
+        >>> cfdist[3].freq('the')
+        0.5
+        >>> cfdist[3]['dog']
+        2
+
+    When the indexing operator is used to access the frequency
+    distribution for a condition that has not been accessed before,
+    ``ConditionalFreqDist`` creates a new empty FreqDist for that
+```
+When looking through the documentation there is more useful information on what the CFD is, however, we are only
+interested in how to access it. 
+```python
+def cfd_to_dataframe(cfd: nltk.probability.ConditionalFreqDist):
+    """
+    This function takes an NLTK conditional frequency distribution and 
+    converts it to a pandas dataframe object. Limitations of the 
+    nltk.probability.ConditionFreqDist do not allow for extra analysis one might 
+    do with the data available.
+    :param cfd: A conditional frequency Distribution is a dictionary of pairs i.e. genre : (word, count)  
+    :return: a pandas.DataFrame object with indexed to words with counts headed by their genre
+    """
+    df = pd.DataFrame()
+    for k in cfd.keys():
+        word = [k for k,v in cfd[k].items()]
+        value = [v for k,v in cfd[k].items()]
+        s = pd.Series(data=value, index=word)
+        df[k] = s
+        
+    return df
+```
+
 For more information on NLTK plot
 ```python
 cfd.plot.__doc__
