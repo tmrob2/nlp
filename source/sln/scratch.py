@@ -11,3 +11,9 @@ d = {'news': [x for x,_ in nltk.FreqDist(brown.words(categories='news')).most_co
      'romance': [x for x,_ in nltk.FreqDist(brown.words(categories='romance')).most_common(50)]}
 
 genre_words = [(g,w) for g in ['news', 'romance'] for w in brown.words(categories=g) if w in d[g]]
+
+"""The charting is somewhat limited therefore we will want to do some modifications to make the charting richer"""
+
+word = [k for (k,v) in cfd['news'].items()]
+
+
