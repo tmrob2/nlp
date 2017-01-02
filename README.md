@@ -1,12 +1,14 @@
 # NLP
+##Contents
+[Basics](#basics)
+[*Conducting Text Searches](#b_text_search)
+[*Conducting Similar Text Searches](#b_sim_text_search)
+
 ##Introduction
 A complete exploration of Natural language processing 
 with python. The aim of this repository is to start with
 the basics and move through more advanced code step by 
 step.
-
-#####Contents
-[Basics](#basics)
 
 <a name="basics"/>
 ##Basics
