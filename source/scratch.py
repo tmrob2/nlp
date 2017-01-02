@@ -3,6 +3,7 @@ import pandas as pd
 from nltk.book import *
 import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
+from nltk.corpus import wordnet as wn
 
 def lexical_diversity(text):
     return len(set(text))/len(text)
@@ -85,7 +86,11 @@ def names_in_text(text):
     return text_names
 
 
+#Wordnet references
 
+for syn in wn.synsets('dish'):
+    print(syn, syn.lemma_names())
 
+types_of_dish = wn.synset('dish.n.01').hyponyms()
 
 

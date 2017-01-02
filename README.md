@@ -5,7 +5,12 @@ with python. The aim of this repository is to start with
 the basics and move through more advanced code step by 
 step.
 
+#####Contents
+[Basics](#basics)
+
+<a name="basics"/>
 ##Basics
+
 Using the nltk package, an analysis can be begun. This 
 imports a series of texts on which functions from nltk
 can be performed. In this way the basics can be 
@@ -297,7 +302,8 @@ depending on whether a subset is being taken or the complete set.
 An example of the complete set is:
 
 ```python
-cfd = nltk.ConditionalFreqDist((g,w) for g in ['adventure', 'fiction'] for w in brown.words(categories=g))
+cfd = nltk.ConditionalFreqDist((g,w) for g in ['adventure', 'fiction'] 
+                               for w in brown.words(categories=g))
 cfd.plot()
 ```
 
@@ -308,7 +314,8 @@ import operator
 d = {'adventure': [x for x,_ in nltk.FreqDist(brown.words(categories='adventure')).most_common(50)], 
      'fiction': [x for x,_ in nltk.FreqDist(brown.words(categories='fiction')).most_common(50)]}
 
-genre_words = [(g,w) for g in ['adventure', 'fiction'] for w in brown.words(categories=g) if w in d[g]]
+genre_words = [(g,w) for g in ['adventure', 'fiction'] 
+               for w in brown.words(categories=g) if w in d[g]]
 
 cfd = nltk.ConditionalFreqDist(genre_words)
 cdf.sort(key=operator.itemgetter(1))
@@ -336,8 +343,8 @@ nltk.probability.ConditionalFreqDist
     distribution for a condition that has not been accessed before,
     ``ConditionalFreqDist`` creates a new empty FreqDist for that
 ```
-When looking through the documentation there is more useful information on what the CFD is, however, we are only
-interested in how to access it. 
+When looking through the documentation there is more useful information on what the CFD is, 
+however, we are only interested in how to access it. 
 ```python
 def cfd_to_dataframe(cfd: nltk.probability.ConditionalFreqDist):
     """
@@ -345,14 +352,15 @@ def cfd_to_dataframe(cfd: nltk.probability.ConditionalFreqDist):
     converts it to a pandas dataframe object. Limitations of the
     nltk.probability.ConditionFreqDist do not allow for extra analysis one might
     do with the data available.
-    :param cfd: A conditional frequency Distribution is a dictionary of pairs i.e. genre : (word, count)
+    :param cfd: A conditional frequency Distribution is a dictionary of pairs i.e. 
+    genre : (word, count)
     :return: a pandas.DataFrame object with indexed to words with counts headed by their genre
     """
     df = pd.DataFrame()
     ls = set_of_words(cfd)
     # Could not think of a better way of getting around the double loop as we need to include
-    # all of the words from all lists i.e. A = [a,b,c] B = [a,d,e] then we can't serialise the two with
-    # with an index from one or the other it must be both.
+    # all of the words from all lists i.e. A = [a,b,c] B = [a,d,e] then we 
+    # can't serialise the two with an index from one or the other it must be both.
     for k in cfd.keys():
         words = [w for w,c in cfd[k].items()]
         value = [cfd[k][w] if w in words else 0 for w in ls]
@@ -432,9 +440,14 @@ swadesh.words('en')
 #translation pairs
 fr2en = swadesh.entries(['fr', 'en'])
 translate = dict(fr2en)
-tranlate['chat']
+translate['chat']
 ```
 
+###Synsets
 
+```python
+for l in wn.synsets('dish'):
+    print(l.lemma_names())
+```
  
  
