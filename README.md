@@ -1,16 +1,36 @@
 # NLP
 ##Contents
 [Basics](#basics)
-[*Conducting Text Searches](#b_text_search)
-[*Conducting Similar Text Searches](#b_sim_text_search)
+
+* [Conducting Text Searches](#b_text_search)
+* [Conducting Similar Text Searches](#b_sim_text_search)
+* [Common Contexts](#b_common_contexts)
+* [Dispersion Plots](#b_disp_plts)
+* [Vocabulary of Texts](#b_vocab_texts)
+
+[Computing With Language](#computing)
+ 
+* [Frequency Distributions](#c_freq_dist)
+* [Subsets of Text](#c_sub_texts)
+* [Collocations and Bigrams](#c_collac_bigrams)
+* [Conditionals](#c_cond)
+* [Text Corpora](#c_text_corpora)
+* [Conditional Frequency Distributions and Accessing Corpus Examples](#c_cond_freq_dist)
+
+[Lexical Resources](#lexical)
+* [Comparative Wordlists](#l_wordlists)
+* [Synsets](#l_synsets)
+
 
 ##Introduction
+
 A complete exploration of Natural language processing 
 with python. The aim of this repository is to start with
 the basics and move through more advanced code step by 
 step.
 
 <a name="basics"/>
+
 ##Basics
 
 Using the nltk package, an analysis can be begun. This 
@@ -36,7 +56,10 @@ text8: Personals Corpus
 text9: The Man Who Was Thursday by G . K . Chesterton 1908
 ```
 
+<a name="b_text_search"/>
+
 ###Conducting text searches
+
 To search on words exact to a text string use the method
 .concordance for example
 
@@ -48,33 +71,37 @@ text1.concordance("monstrous")
 nltk.text.Text but what does that really mean. Dig deeper
 into the class documentation of ntlk to find out.
 
+<a name="b_sim_text_search"/>
+
 ###Conducting similar text searches
 
 What about similes in the context of the text excerpts. 
- This is quite simple and powerful. On entering the 
- following into the command line a list of words are 
- returned which are similes in the authors context of 
- the word "monstrous"
+This is quite simple and powerful. On entering the 
+following into the command line a list of words are 
+returned which are similes in the authors context of 
+the word "monstrous"
  
- ```python
+```python
 >>> text1.similar("monstrous")
 determined fearless contemptible uncommon trustworthy doleful passing
 singular untoward horrible christian mystifying imperial wise loving
 lamentable exasperate mean lazy subtly
- ```
+```
  
- On conducting the same analysis of text 2 we get the
- following
- ```python
- >>> text2.similar("monstrous")
- very heartily exceedingly so good a sweet extremely amazingly as vast
+On conducting the same analysis of text 2 we get the
+following
+```python
+>>> text2.similar("monstrous")
+very heartily exceedingly so good a sweet extremely amazingly as vast
 remarkably great
- ```
+```
  
- On comparison of the two texts it can be seen that the
- context of the word monstrous takes on two different 
- meanings to the authors.
- 
+On comparison of the two texts it can be seen that the
+context of the word monstrous takes on two different 
+meanings to the authors.
+
+<a name="b_common_contexts"/>
+
 ###Common Contexts
 
 Find the contexts in which a list of words can appear.
@@ -85,6 +112,8 @@ the amount of times that it was used.
 text1.common_contexts(['murder', 'tell'])
 will_thee and_him to_us i_you
 ```
+
+<a name="b_disp_plts"/>
 
 ###Dispersion Plot
 
@@ -111,6 +140,8 @@ included. Interestingly enough, while freedom has
 always been mentioned it has become more fequent in 
 recent times.
 
+<a name="b_vocab_texts"/>
+
 ###Vocabulary of Text
 
 The vocabulary of the text is the set of words which
@@ -123,11 +154,13 @@ as a sorted set with
 
 The lexical diversity of the text can be expressed as a
 percentage with the function
- 
+
 ```python
 def percentage_words_to_text_length(text):
     return len(set(text))/len(text)*100
 ```
+
+<a name="computing"/>
 
 ##Computing with Language
 
@@ -138,6 +171,8 @@ to large quantities of text. Specifically around:
 * Automatic methods to find characteristic words and 
 expressions within a text
 
+<a name="c_freq_dist"/>
+
 ###Frequency Distribution
 
 NLTK provides a function for the frequency distribution
@@ -145,11 +180,11 @@ with FreqDist(text) e.g. when plotting the distribution
 of tokens across words contained in the Jane Austin's 
 Sense and Sensibility we obtain
  
- ```python
- fdist_ss = FreqDist(text2)
- fdist_ss.most_common(50)
- fdist_ss.plot(50, cumulative=True)
- ```
+```python
+fdist_ss = FreqDist(text2)
+fdist_ss.most_common(50)
+fdist_ss.plot(50, cumulative=True)
+```
  
 The cumulative distribution gives details about the
 tokens that take up a significant portion of the text. 
@@ -168,9 +203,11 @@ get an understanding of the hapaxes use the following
 text.hapexes()
 ```
 
+<a name="c_sub_texts"/>
+
 ###Subsets of text with specific properties
 
-If the most freqent or hapexes searches do not reveal
+If the most frequent or hapexes searches do not reveal
 anything about the underlying context of the text then
 searching for text subsets with specific properties
 may help. Python provides the underlying set structure
@@ -208,9 +245,11 @@ def search(fn, V):
 This saves a bit of code writing out the list comprehension for each of the searches and promotes a syntax that represents the
 set notation. 
 
+<a name="c_collac_bigrams"/>
+
 ###Collocations and Bigrams
 
-A collacation is a sequence of words that occur frequently
+A collocation is a sequence of words that occur frequently
 and often. 
 
 To describe the usefulness of a collocation, first a 
@@ -232,9 +271,9 @@ preceding token occurring.
 An example of this can be constructed using the NLTK
 method bigram()
  
- ```python
- list(nltk.bigram(['more','is','said','than','done']))
- ```
+```python
+list(nltk.bigram(['more','is','said','than','done']))
+```
 To get the collocations from a text 
  
  ```python
@@ -245,6 +284,8 @@ years ago; lower jaw; never mind; Father Mapple; cried Stubb; chief
 mate; white whale; ivory leg; one hand
  ```
 Thus one can get a real sense of the prose.
+
+<a name="c_cond"/>
 
 ###Conditionals
 
@@ -268,6 +309,8 @@ An example
 search(lambda a: a.endswith('ble') & a.startswith('un'), text)
 ```
 
+<a name="c_text_corpora"/>
+
 ###Text Corpora
 
 A quick interlude into text corpora is needed. Using the NLTK class is convenient and 
@@ -289,6 +332,8 @@ directory_address = .../files
 words = PlaintextCorpusReader(directory_address, '.*')
 words.fileids()
 ```
+
+<a name="c_cond_freq_dist"/>
 
 ###Conditional Frequency Distributions Accessing Text Corpora Examples 
 
@@ -326,7 +371,8 @@ cfd.plot(cumulative=True)
 
 To conduct further anlysis and plotting that can be saved to the image processor we can send the data from the 
 conditional frequency distribution to a pandas dataframe. At this point it is useful to understand exactly what the 
-conditional frequency distribution is. With
+conditional frequency distribution is.
+
 ```python
 >>>type(cfd)
 nltk.probability.ConditionalFreqDist
@@ -347,6 +393,7 @@ nltk.probability.ConditionalFreqDist
 ```
 When looking through the documentation there is more useful information on what the CFD is, 
 however, we are only interested in how to access it. 
+
 ```python
 def cfd_to_dataframe(cfd: nltk.probability.ConditionalFreqDist):
     """
@@ -384,6 +431,9 @@ For more information on NLTK plot
 ```python
 cfd.plot.__doc__
 ```
+
+<a name="lexical"/>
+
 ##Lexical Resources
 
 Some useful lexical references include the Names: corpus.names, Stopwords: corpus.stopwords and 
@@ -400,6 +450,7 @@ def unusual_words(text):
     unusual = text_vocab - english_vocab
     return sorted(unusual)
 ```
+
 Removing the stopwords from a text or conducting analysis on the fraction of plumbing words:
 
 ```python
@@ -413,6 +464,7 @@ def content_fraction(text):
     content = [w for w in text if w.lower() not in stopwords]
     return len(content)/len(text)
 ```
+
 Checking for the names in the text and cross referencing them to male and/or female names: 
 
 ```python
@@ -422,6 +474,8 @@ def names_in_text(text):
     text_names = [w for w in text if w in male_names or w in female_names]
     return text_names
 ```
+
+<a name="l_wordlists"/>
 
 ###Comparative Word Lists
 
@@ -444,6 +498,8 @@ fr2en = swadesh.entries(['fr', 'en'])
 translate = dict(fr2en)
 translate['chat']
 ```
+
+<a name="l_synsets"/>
 
 ###Synsets
 
