@@ -374,6 +374,67 @@ For more information on NLTK plot
 ```python
 cfd.plot.__doc__
 ```
- 
+##Lexical Resources
+
+Some useful lexical references include the Names: corpus.names, Stopwords: corpus.stopwords and 
+Usual words: corpus.words. Stopwords are high frequency words like *the*, *to* or *and* which do 
+not add value to the interpretation of the text. Usual words are useful for dealing with spelling
+mistakes. 
+
+Checking for spelling mistakes or words outside of common english usage:
+
+```python
+def unusual_words(text):
+    text_vocab = set(w.lower() for w in text if w.isalpha())
+    english_vocab = set(w.lower() for w in nltk.corpus.words.words())
+    unusual = text_vocab - english_vocab
+    return sorted(unusual)
+```
+Removing the stopwords from a text or conducting analysis on the fraction of plumbing words:
+
+```python
+def remove_stops(text):
+    stops = stopwords.words('english')
+    non_stop = [w for w in text if w.lower() not in stops and w.isalpha()]
+    return non_stop
+
+def content_fraction(text):
+    stops = stopwords.words('english')
+    content = [w for w in text if w.lower() not in stopwords]
+    return len(content)/len(text)
+```
+Checking for the names in the text and cross referencing them to male and/or female names: 
+
+```python
+def names_in_text(text):
+    male_names = nltk.corpus.names.words('male.txt')
+    female_names = nltk.corpus.names.words('female.txt')
+    text_names = [w for w in text if w in male_names or w in female_names]
+    return text_names
+```
+
+###Comparative Word Lists
+
+The comparative wordlist is a tabular lexicon which contains a list of 200 common words across
+multiple languages. This is useful when analysing chat data in European countries which have a 
+primary/native language but with residents of lower language proficiency. Therefore there may 
+be grammatical errors in other languages that need to be translated before the chat can be 
+interpreted. 
+
+```python
+from nltk.corpus import swadesh
+#language keys
+swadesh.fileids()
+
+#list of english swadesh words
+swadesh.words('en')
+
+#translation pairs
+fr2en = swadesh.entries(['fr', 'en'])
+translate = dict(fr2en)
+tranlate['chat']
+```
+
+
  
  
