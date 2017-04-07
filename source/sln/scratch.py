@@ -4,6 +4,8 @@ from nltk.book import *
 import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet as wn
+from bs4 import BeautifulSoup
+from urllib import request
 
 def lexical_diversity(text):
     return len(set(text))/len(text)
@@ -92,5 +94,14 @@ for syn in wn.synsets('dish'):
     print(syn, syn.lemma_names())
 
 types_of_dish = wn.synset('dish.n.01').hyponyms()
+
+#BeautifulSoup
+#input a url
+url = 'https://www.reddit.com/r/news/'
+html = request.urlopen(url).read().decode('utf8')
+html[:60]
+raw = BeautifulSoup(html).get_text()
+tokens = word_tokenize(raw)
+print(tokens)
 
 

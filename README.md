@@ -21,6 +21,10 @@
 * [Comparative Wordlists](#l_wordlists)
 * [Synsets](#l_synsets)
 
+[Accessing Raw Text](#raw_text)
+* [Accessing text from disk](#raw_disk)
+* [Acessing text from web](#raw_web)
+
 
 ##Introduction
 
@@ -507,5 +511,105 @@ translate['chat']
 for l in wn.synsets('dish'):
     print(l.lemma_names())
 ```
- 
+
+<a name="raw_text"/>
+
+##Accessing Raw Text
+
+This section deals with data input from disk or web as the most important sources of data. Typically there will be server repository which can be extracted directly via url or downloaded to form text corpora.  
+
+###Data From Disk
+
+###Data From URL
+
+Basically any web source can be input using this method. Proxies will not be covered. This section will also cover how to integrate PRAW and NLTK as Reddit is a large source of unstructured data.
+
+```Python
+from urllib import request
+url = "www.testurl.com"
+```
+
+###PRAW Quickstart
+
+Create a reddit application to get the following. There are a few types of application and therefore the following reference [Authentication Options](https://praw.readthedocs.io/en/latest/getting_started/authentication.html) should be used. 
+
+```Python
+# The client id is the 14 character string just under personal user script
+def return_client_id():
+    return "************"
+
+#client secret is the 27 character string adjacent to secret. 
+def return_client_secret():
+    return "******..****"
+
+def user_agent():
+    return "test by u/robot1"
+
+# Putting it all together
+def define_reddit(password: Str, username: Str):
+    reddit = praw.Reddit(client_id=return_client_id(),
+                     client_secret=return_client_secret(),
+                     password = password,
+                     user_agent=user_agent(),
+                     username = username)
+    return reddit
+
+# Testing if the connection was successful
+print(reddit.user.me())
+```
+
+PRAW read only instance make reference to define_reddit(): results in an autorised session. With a read-only session you can obtain 10 'hot' submissions. With an authorised session you can do whatever your u/redditname accoutn allows you to do. 
+
+```Python
+# Obtaining a limited 'Hot' submissions
+for submission in reddit.subreddit('subredit_name').hot(limit=10):
+    print(submission.title)
+
+# For a non limited subreddit return
+for submission in reddit.subreddit('subreddit_name').hot(limit=None)
+    print(submission.title)
+```
+
+Keywords obtaining 'submission; from a subreddit. There are several to lop through. 
+
+* controversial
+* gilded
+* hot
+* new
+* rising
+* top
+
+```Python
+limit_num = 10
+for submission in subreddit.hot(limit=limit_num):
+    print(submission.title) # Output: the submission's title
+    print(submission.score) # Output: the submission's score
+    print(submisison.id)    # Output: the submission's id
+    print(submission.url)   # Output: the URL the submission points to 
+````
+
+So the above explains the basics of connection and obtaining submission but the real heart of the matter is obtaining comments. Submissions have a comments attribute that is a comment forest. The submission instance is iterable and represents top level comments by the default comment sort. To iterate over all comments the list() method should be called. 
+
+```Python
+top_level_comments = list(submission.comments)
+all_comments = submission.comments.list()
+
+# Sorting submissions 
+submission.comment_sort = 'new'
+```
+
+For static web requests, such as, you would like to go through the unstructured data on a web page that you know, you can use the following:
+
+```Python
+from urllib import request
+url = "http://www.politico.com/story/2017/04/nunes-to-step-aside-from-russia-probe-236951?cmpid=sf"
+html = request.urlopen(url).read().decode('utf8')
+# Convert the html request to word tokens with BeautifulSoup
+raw = BeautifulSoup(html,"lxml").get_text()
+# Convert the raw to tokens with nltk.word_tokenize(...)
+tokens = nltk.word_tokenize(raw)
+# Test
+print(tokens[:60])
+```
+
  
