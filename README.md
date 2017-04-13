@@ -520,6 +520,17 @@ This section deals with data input from disk or web as the most important source
 
 ###Data From Disk
 
+Reading local files
+
+```Python
+f = open('document.txt')
+raw = f.read()
+tokens = nltk.word_tokenize(raw)
+words = [w.lower() for w in tokens]
+vocab = sorted(set(words))
+type(vocab)
+```
+
 ###Data From URL
 
 Basically any web source can be input using this method. Proxies will not be covered. This section will also cover how to integrate PRAW and NLTK as Reddit is a large source of unstructured data.
@@ -610,6 +621,72 @@ raw = BeautifulSoup(html,"lxml").get_text()
 tokens = nltk.word_tokenize(raw)
 # Test
 print(tokens[:60])
+text = nltk.Text(tokens)
+#Check the concordance of a given word to test
+text.concordance('Russia')
 ```
+
+Combining with some of the previous methods learned. 
+
+```Python
+# List comprehension to sort through the news article
+words = [w.lower() for w in text]
+# Sorted vocab list
+vocab = sorted(set(words)
+```
+
+### Regular Expression for Detecting Word Patterns
+
+For pattern matching in text we need the re library. The syntax uses a few key forms, for example: 
+
+| Symbol | Meaning |
+|---|:---:|
+|^| Indicates that the string pattern has started
+|$| Indicates that the string pattern has ended
+|.| Indicates a character in a string but not allocated to any character in particular
+|?| Indicates that the previous character is optional
+|+| One or more instances of the preceding items
+|[abc]|Matches one set of characters
+|*| zero or more previous items|
+|{n}|exactly n repeats|
+|{n,}| at least n repeats|
+|{,n}| no more than n repeats |
+|{m,n}| at least m and no more than n repeats|
+
+Some examples of how to use the character markers in the re.search() routine.
+
+```Python
+import re
+wordlist = [w for w in nltk.corpus.words.words('en') if w.islower()]
+
+# Finding words ending in ing
+[w for w in wordlist if re.search('ing$',w)]
+
+"""
+Returning a list of words with character spaces for example 3rd position a and 7th position t of at least 9 letters
+"""
+
+[w for w in wordlist if re.search('..a...t..', w)]
+
+"""
+Returning a list of words of words that are 8 letters long with a j in the 3rd position and a t in the 6th position
+"""
+[w for w in wordlist if re.search('^..j..t..$', w)]
+
+[w for w in wordlist if re.search('^e-?mail$', w)]
+
+```
+
+###Extracting Word Pieces
+
+The re.findall() method finds all non-overlapping matched of the given regualar expression. Looking for sequences of two or more vowels in some text and determining their respective frequency can be achieved with
+
+```Python
+wsj = sorted(set(nltk.corpus.treebank.words()))
+fd = nltk.FreqDist(vs for word in wsj for vs in re.findall(r'[aeiou]{2,}', word))
+
+fd.most_common(12)
+```
+
 
  
